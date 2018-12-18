@@ -8,39 +8,35 @@ Follow-up: Does your solution work for the following cases: "hello/world:here/",
 def main():
     s = raw_input("Enter the string?\n")
     delimiters = []
-    temp_stor = ''
+    index = 0
+    prev_item = ''
     for item in s:
         if item == ':' or item =='/':
-            delimiters.append(item)
+            delimiters.append([item, index])
+            prev_item = item
+            index += 1
+        else:
+            if prev_item == '' or prev_item == '/' or prev_item == ':':
+                index += 1
+                prev_item = item
 
     s = s.replace('/', ':')
     s = s.split(':')
+    s.reverse()
 
-    answer = ''
-    while not answer:
-        answer = s.pop()
+    while(s[0] == ''):
+        s.reverse()
+        s.pop()
+        s.reverse()
+        s.append('')
 
-    delimiters.reverse()
-    len_of_string = len(s)
-    i = len_of_string - 1
-    while(delimiters and i >= 0):
-        temp = i
-        while(temp > 0 and s[temp-1] == ''):
-            temp_stor += delimiters.pop()
-            temp -= 1
-        answer += ((temp_stor + delimiters.pop()) if temp_stor else delimiters.pop()) + s.pop()
-        temp_stor = ''
-        i -= 1
+    for delimiter in delimiters:
+        item, index = delimiter
+        s.insert(index, item)
 
-    while(i>=0):
-        answer += s[i]
-        i -= 1
-    while delimiters:
-        answer += delimiters.pop()
+    s = ''.join(s)
 
-    print(answer)
-
-
+    print(s)
 
 if __name__ == '__main__':
     main()
