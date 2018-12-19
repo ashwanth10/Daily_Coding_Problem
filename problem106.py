@@ -11,7 +11,7 @@ def main():
     value = given_list[0]
     index = 0
 
-    while(value > 0):
+    while(value > 0 and not (index >= (len(given_list) - 1))):
         index += value
         value = given_list[index]
 
